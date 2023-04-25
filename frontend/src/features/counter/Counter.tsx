@@ -1,68 +1,58 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-import { useAppSelector, useAppDispatch } from '../../app/hooks';
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   decrement,
   increment,
-  incrementByAmount,
   incrementAsync,
+  incrementByAmount,
   incrementIfOdd,
-  selectCount,
-} from './counterSlice';
-import styles from './Counter.module.css';
+  selectCount
+} from "./counterSlice";
 
 export function Counter() {
   const count = useAppSelector(selectCount);
   const dispatch = useAppDispatch();
-  const [incrementAmount, setIncrementAmount] = useState('2');
+  const [incrementAmount, setIncrementAmount] = useState("2");
 
   const incrementValue = Number(incrementAmount) || 0;
 
   return (
-    <div>
-      <div className={styles.row}>
-        <button
-          className={styles.button}
-          aria-label="Decrement value"
-          onClick={() => dispatch(decrement())}
-        >
-          -
-        </button>
-        <span className={styles.value}>{count}</span>
-        <button
-          className={styles.button}
-          aria-label="Increment value"
-          onClick={() => dispatch(increment())}
-        >
-          +
-        </button>
-      </div>
-      <div className={styles.row}>
-        <input
-          className={styles.textbox}
-          aria-label="Set increment amount"
+    <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+      <Box sx={{ my: 1, display: "flex", alignItems: "center" }}>
+        <IconButton size="large" color="primary" onClick={() => dispatch(decrement())}>
+          <RemoveCircleIcon />
+        </IconButton>
+        <Typography mx={2}>{count}</Typography>
+        <IconButton size="large" color="primary" onClick={() => dispatch(increment())}>
+          <AddCircleIcon />
+        </IconButton>
+      </Box>
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+        <TextField
+          variant="outlined"
+          size="small"
           value={incrementAmount}
           onChange={(e) => setIncrementAmount(e.target.value)}
         />
-        <button
-          className={styles.button}
-          onClick={() => dispatch(incrementByAmount(incrementValue))}
-        >
+        <Button variant="contained" onClick={() => dispatch(incrementByAmount(incrementValue))}>
           Add Amount
-        </button>
-        <button
-          className={styles.asyncButton}
-          onClick={() => dispatch(incrementAsync(incrementValue))}
-        >
+        </Button>
+        <Button variant="contained" onClick={() => dispatch(incrementAsync(incrementValue))}>
           Add Async
-        </button>
-        <button
-          className={styles.button}
-          onClick={() => dispatch(incrementIfOdd(incrementValue))}
-        >
+        </Button>
+        <Button variant="contained" onClick={() => dispatch(incrementIfOdd(incrementValue))}>
           Add If Odd
-        </button>
-      </div>
-    </div>
+        </Button>
+      </Box>
+    </Box>
   );
 }
